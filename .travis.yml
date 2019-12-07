@@ -1,6 +1,10 @@
-language: node_js
-node_js: node
-services: mongodb
+language: 
+-   node_js
+node_js: 
+  - node
+  - "stable"
+services: 
+  - mongodb
 env: MONGODB_URI=mongodb://localhost:27017/travis AUTH_SECRET=narraSecret AUTH0_DOMAIN=dev-umg-gh6h.auth0.com AUTH0_CLIENT_ID=12345 AUTH0_MANAGEMENT_CLIENT_ID=test AUTH0_MANAGEMENT_CLIENT_SECRET=testSecret AUTH0_AUDIENCE=https://dev-umg-gh6h.auth0.com/api/v2/
 
 ## deploy:
