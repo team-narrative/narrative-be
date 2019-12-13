@@ -13,7 +13,7 @@ describe('Character API', () => {
 
   const story = {
     storyTitle: 'writing a test',
-    storySynopsis: 'this must be a synopsis test'
+    storyDescription: 'this must be a synopsis test'
   };
 
   function postStory(posting) {
@@ -34,17 +34,17 @@ describe('Character API', () => {
 
   const character = {
     characterName: 'writing a test',
-    characterSynopsis: 'this must be a synopsis test'
+    characterDescription: 'this must be a synopsis test'
   };
 
   const character2 = {
     characterName: 'two two',
-    characterSynopsis: 'uuhhh testing this'
+    characterDescription: 'uuhhh testing this'
   };
 
   const character3 = {
     characterName: 'testy three',
-    characterSynopsis: 'test test test'
+    characterDescription: 'test test test'
   };
 
   it('posts a character', async() => {
@@ -59,7 +59,7 @@ describe('Character API', () => {
           .send(character)
           .expect(200)
           .then(({ body }) => {
-            expect(body).toEqual({ '__v': 0, '_id': expect.any(String), 'characterName': 'writing a test', 'characterStoryId': storyId, 'characterTags': [], 'userId': '7890' });
+            expect(body).toEqual({ '__v': 0, '_id': expect.any(String), 'characterDescription': 'this must be a synopsis test', 'characterName': 'writing a test', 'characterStoryId': storyId, 'characterTags': [], 'userId': '7890' });
           });
       });
   });
@@ -109,7 +109,9 @@ describe('Character API', () => {
           })
           .then(({ body }) => {
             expect(body.length).toBe(3);
-            expect(body[0]).toEqual({ '__v': 0, '_id': expect.any(String), 'characterName': 'writing a test', 'characterStoryId': storyId, 'characterTags': [], 'userId': '7890' });
+            expect(body).toContainEqual(expect.objectContaining(character));
+            expect(body).toContainEqual(expect.objectContaining(character2));
+            expect(body).toContainEqual(expect.objectContaining(character3));
           });
       });
   });
