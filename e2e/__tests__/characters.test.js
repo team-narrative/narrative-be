@@ -13,7 +13,7 @@ describe('Character API', () => {
 
   const story = {
     storyTitle: 'writing a test',
-    storySynopsis: 'this must be a synopsis test'
+    storyDescription: 'this must be a synopsis test'
   };
 
   function postStory(posting) {
