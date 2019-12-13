@@ -68,7 +68,9 @@ describe('Story API', () => {
       })
       .then(({ body }) => {
         expect(body.length).toBe(3);
-        expect(body[0]).toEqual({ '__v': 0, '_id': expect.any(String), 'storyGenre': [], 'storySynopsis': 'this must be a synopsis test', 'storyTags': [], 'storyTitle': 'writing a test', 'userId': '7890', 'userImage': 'k.png', 'userName': 'p' });
+        expect(body).toContainEqual(expect.objectContaining(story));
+        expect(body).toContainEqual(expect.objectContaining(story2));
+        expect(body).toContainEqual(expect.objectContaining(story3));
       });
   });
 
