@@ -109,7 +109,9 @@ describe('World API', () => {
           })
           .then(({ body }) => {
             expect(body.length).toBe(3);
-            expect(body[0]).toEqual({ '__v': 0, '_id': expect.any(String), 'worldDescription': 'this must be a synopsis test', 'worldName': 'writing a test', 'worldStoryId': storyId, 'worldTags': [], 'userId': '7890' });
+            expect(body).toContainEqual(expect.objectContaining(world));
+            expect(body).toContainEqual(expect.objectContaining(world2));
+            expect(body).toContainEqual(expect.objectContaining(world3));
           });
       });
   });

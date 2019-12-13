@@ -109,7 +109,9 @@ describe('Chapter API', () => {
           })
           .then(({ body }) => {
             expect(body.length).toBe(3);
-            expect(body[0]).toEqual({ '__v': 0, '_id': expect.any(String), 'chapterName': 'writing a test', 'chapterStoryId': storyId, 'chapterTags': [], 'chapterText': 'this must be a synopsis test', 'userId': '7890' });
+            expect(body).toContainEqual(expect.objectContaining(chapter));
+            expect(body).toContainEqual(expect.objectContaining(chapter2));
+            expect(body).toContainEqual(expect.objectContaining(chapter3));
           });
       });
   });

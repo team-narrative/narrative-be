@@ -109,7 +109,9 @@ describe('Location API', () => {
           })
           .then(({ body }) => {
             expect(body.length).toBe(3);
-            expect(body[0]).toEqual({ '__v': 0, '_id': expect.any(String), 'locationDescription': 'this must be a synopsis test', 'locationName': 'writing a test', 'locationStoryId': storyId, 'locationTags': [], 'userId': '7890' });
+            expect(body).toContainEqual(expect.objectContaining(location));
+            expect(body).toContainEqual(expect.objectContaining(location2));
+            expect(body).toContainEqual(expect.objectContaining(location3));
           });
       });
   });
