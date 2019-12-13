@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const request = require('../request.js');
 const connect = require('../../lib/utils/connect');
 
-describe('Chapter API', () => {
+describe('Location API', () => {
   beforeAll(() => connect());
   beforeEach(() => {
     return mongoose.connection.dropDatabase();
@@ -24,30 +24,30 @@ describe('Chapter API', () => {
       .then(({ body }) => body);
   }
 
-  function postChapter(posting, id) {
+  function postLocation(posting, id) {
     return request
-      .post(`/api/v1/chapters/${id}`)
+      .post(`/api/v1/locations/${id}`)
       .send(posting)
       .expect(200)
       .then(({ body }) => body);
   }
 
-  const chapter = {
-    chapterName: 'writing a test',
-    chapterText: 'this must be a synopsis test'
+  const location = {
+    locationName: 'writing a test',
+    locationDescription: 'this must be a synopsis test'
   };
 
-  const chapter2 = {
-    chapterName: 'two two',
-    chapterText: 'uuhhh testing this'
+  const location2 = {
+    locationName: 'two two',
+    locationDescription: 'uuhhh testing this'
   };
 
-  const chapter3 = {
-    chapterName: 'testy three',
-    chapterText: 'test test test'
+  const location3 = {
+    locationName: 'testy three',
+    locationDescription: 'test test test'
   };
 
-  it('posts a chapter', async() => {
+  it('posts a location', async() => {
     let storyId;
     return postStory(story)
       .then(story => {
@@ -55,42 +55,42 @@ describe('Chapter API', () => {
       })
       .then(() => {
         return request
-          .post(`/api/v1/chapters/${storyId}`)
-          .send(chapter)
+          .post(`/api/v1/locations/${storyId}`)
+          .send(location)
           .expect(200)
           .then(({ body }) => {
-            expect(body).toEqual({ '__v': 0, '_id': expect.any(String), 'chapterName': 'writing a test', 'chapterStoryId': storyId, 'chapterTags': [], 'chapterText': 'this must be a synopsis test', 'userId': '7890' });
+            expect(body).toEqual({ '__v': 0, '_id': expect.any(String), 'locationDescription': 'this must be a synopsis test', 'locationName': 'writing a test', 'locationStoryId': storyId, 'locationTags': [], 'userId': '7890' });
           });
       });
   });
 
-  it('gets a chapter', () => {
+  it('gets a location', () => {
     let storyId;
-    let chapterId;
+    let locationId;
     return postStory(story)
       .then(story => {
         storyId = story._id;
       })
       .then(() => {
         return request
-          .post(`/api/v1/chapters/${storyId}`)
-          .send(chapter)
+          .post(`/api/v1/locations/${storyId}`)
+          .send(location)
           .expect(200)
           .then(({ body }) => {
-            chapterId = body._id;
+            locationId = body._id;
             return request
-              .put(`/api/v1/chapters/${chapterId}`)
+              .put(`/api/v1/locations/${locationId}`)
               .send({
-                chapterName: 'updating name', chapterDescription: 'description' })
+                locationName: 'updating name', locationDescription: 'description' })
               .expect(200)
               .then(({ body }) => {
-                expect(body).toEqual({ '__v': 0, '_id': expect.any(String), 'chapterName': 'updating name', 'chapterStoryId': storyId, 'chapterTags': [], 'chapterText': 'this must be a synopsis test', 'userId': '7890' });
+                expect(body).toEqual({ '__v': 0, '_id': expect.any(String), 'locationDescription': 'description', 'locationName': 'updating name', 'locationStoryId': storyId, 'locationTags': [], 'userId': '7890' });
               });
           });
       });
   });
 
-  it('gets all chapters', () => {
+  it('gets all locations', () => {
     let storyId;
     return postStory(story)
       .then(story => {
@@ -98,64 +98,64 @@ describe('Chapter API', () => {
       })
       .then(() =>  {
         return Promise.all([
-          postChapter(chapter, storyId),
-          postChapter(chapter2, storyId),
-          postChapter(chapter3, storyId)
+          postLocation(location, storyId),
+          postLocation(location2, storyId),
+          postLocation(location3, storyId)
         ])
           .then(() => {
             return request
-              .get('/api/v1/chapters')
+              .get('/api/v1/locations')
               .expect(200);
           })
           .then(({ body }) => {
             expect(body.length).toBe(3);
-            expect(body[0]).toEqual({ '__v': 0, '_id': expect.any(String), 'chapterName': 'writing a test', 'chapterStoryId': storyId, 'chapterTags': [], 'chapterText': 'this must be a synopsis test', 'userId': '7890' });
+            expect(body[0]).toEqual({ '__v': 0, '_id': expect.any(String), 'locationDescription': 'this must be a synopsis test', 'locationName': 'writing a test', 'locationStoryId': storyId, 'locationTags': [], 'userId': '7890' });
           });
       });
   });
 
-  it('can edit a chapter', () => {
+  it('can edit a location', () => {
     let storyId;
-    let chapterId;
+    let locationId;
     return postStory(story)
       .then(story => {
         storyId = story._id;
       })
       .then(() => {
         return request
-          .post(`/api/v1/chapters/${storyId}`)
-          .send(chapter)
+          .post(`/api/v1/locations/${storyId}`)
+          .send(location)
           .expect(200)
           .then(({ body }) => {
-            chapterId = body._id;
+            locationId = body._id;
             return request
-              .put(`/api/v1/chapters/${chapterId}`)
+              .put(`/api/v1/locations/${locationId}`)
               .send({
-                chapterName: 'updating name', chapterDescription: 'description' })
+                locationName: 'updating name', locationDescription: 'description' })
               .expect(200);
           })
           .then(({ body }) => {
-            expect(body.chapterName).toBe('updating name');
+            expect(body.locationName).toBe('updating name');
           });
       });
   });
 
-  it('can delete a chapter', () => {
+  it('can delete a location', () => {
     let storyId;
-    let chapterId;
+    let locationId;
     return postStory(story)
       .then(story => {
         storyId = story._id;
       })
       .then(() => {
         return request
-          .post(`/api/v1/chapters/${storyId}`)
-          .send(chapter)
+          .post(`/api/v1/locations/${storyId}`)
+          .send(location)
           .expect(200)
           .then(({ body }) => {
-            chapterId = body._id;
+            locationId = body._id;
             return request
-              .delete(`/api/v1/stories/${chapterId}`)
+              .delete(`/api/v1/stories/${locationId}`)
               .expect(200);
           });
       });
