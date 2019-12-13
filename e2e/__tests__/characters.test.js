@@ -84,7 +84,7 @@ describe('Character API', () => {
                 characterName: 'updating name', characterDescription: 'description' })
               .expect(200)
               .then(({ body }) => {
-                expect(body).toEqual({ "__v": 0, "_id": expect.any(String), "characterDescription": "description", "characterName": "updating name", "characterStoryId": storyId, "characterTags": [], "userId": "7890"} );
+                expect(body).toEqual({ '__v': 0, '_id': expect.any(String), 'characterDescription': 'description', 'characterName': 'updating name', 'characterStoryId': storyId, 'characterTags': [], 'userId': '7890' });
               });
           });
       });
